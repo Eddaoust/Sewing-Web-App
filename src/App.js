@@ -16,7 +16,6 @@ const App = () => {
             <Route path="/" exact component={Login}/>
             <Route path="/registration" exact component={Registration}/>
             {user.auth && <Route path="/home" exact component={Home}/>}
-            <Redirect to="/"/>
         </Switch>
       </BrowserRouter>
   );

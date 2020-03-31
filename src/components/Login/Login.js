@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Link as RouterLink} from 'react-router-dom';
-import {loginProcess} from "../../actions/login";
+import {loginProcess, loginClearError} from "../../actions/login";
 import {Avatar, Button, TextField, Link, Grid, Typography, CircularProgress} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import classes from '../Login/Login.module.css';
 
 const Login = (props) => {
+    const dispatch = useDispatch();
     const login = useSelector(state => state.login);
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
-console.log(user)
+    // Clear Error on Component unmount
+    useEffect(() => {
+        return () => dispatch(loginClearError());
+    }, []);
     // Handle form error
     let error = false;
     let helperText = '';
