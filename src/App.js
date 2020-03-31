@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import {useSelector} from "react-redux";
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import './App.css';
 
-function App() {
+import Login from "./components/Login/Login";
+import Registration from "./components/Registration/Registration";
+import Home from "./components/Home/Home";
+
+const App = () => {
+    const user = useSelector(state => state.user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+        <Switch>
+            <Route path="/" exact component={Login}/>
+            <Route path="/registration" exact component={Registration}/>
+            {user.auth && <Route path="/home" exact component={Home}/>}
+            <Redirect to="/"/>
+        </Switch>
+      </BrowserRouter>
   );
-}
+};
 
 export default App;

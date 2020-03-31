@@ -1,0 +1,41 @@
+.Root {
+  height: 100vh;
+}
+
+.Image {
+  background-image: url(https://source.unsplash.com/random);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.Form {
+  width: 100%;
+}
+
+.Paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 80px 30px;
+}
+
+.Avatar {
+  background-color: #42CAA4 !important;
+}
+
+.Submit {
+  margin-top: 16px !important;
+  margin-bottom: 8px !important;
+}
+
+.Link {
+  text-decoration: none;
+  text-underline: none;
+}
+
+.Link:visited {
+  color: inherit;
+}
+
+
