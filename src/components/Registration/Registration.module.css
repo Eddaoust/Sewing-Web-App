@@ -1,0 +1,32 @@
+.Paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Form {
+  width: 100%;
+  margin-top: 25px;
+}
+
+.Container {
+  margin-top: 15vh;
+}
+
+.Avatar {
+  background-color: #42CAA4 !important;
+}
+
+.Button {
+  margin-top: 16px !important;
+  margin-bottom: 8px !important;
+}
+
+.Link {
+  text-decoration: none;
+  text-underline: none;
+}
+
+.Link:visited {
+  color: inherit;
+}

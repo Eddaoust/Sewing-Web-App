@@ -41,8 +41,7 @@ const Login = (props) => {
                             username: e.target.querySelectorAll('input')[0].value,
                             password: e.target.querySelectorAll('input')[1].value
                         }, props));
-                        }
-                    }>
+                        }}>
                         <TextField
                             error={error}
                             helperText={helperText}
