@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
 
 import Login from "./components/Login/Login";
@@ -15,7 +15,7 @@ const App = () => {
         <Switch>
             <Route path="/" exact component={Login}/>
             <Route path="/registration" exact component={Registration}/>
-            {user.auth && <Route path="/home" exact component={Home}/>}
+            {(user.activated && user.auth) && <Route path="/home" exact component={Home}/>}
         </Switch>
       </BrowserRouter>
   );

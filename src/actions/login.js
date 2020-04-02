@@ -63,7 +63,7 @@ export function loginProcess(formValues, props) {
                     res.json()
                         .then(response => dispatch(userAuthOnLogin(response)));
                         props.history.push({
-                            pathname: "/home",
+                            pathname: "/",
                         });
                 }
             })

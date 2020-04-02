@@ -57,10 +57,7 @@ export function registrationProcess(formValues, props) {
                             dispatch(registerSuccess(response));
                             //TODO check if is necessary to push
                             props.history.push({
-                                pathname: "/",
-                                state: {
-                                    registration: true
-                                }
+                                pathname: "/"
                             })
                         });
                 }
