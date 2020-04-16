@@ -69,3 +69,34 @@ export function loginProcess(formValues, props) {
             })
     }
 }
+
+export function facebookLoginProcess(formValues, props) {
+    return function(dispatch) {
+        dispatch(loginRequest());
+        return fetch(`${ROOT_URL}/facebook/login`, {
+            method: 'POST',
+            headers: HTTP_HEADERS,
+            body: JSON.stringify(formValues)
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    const handleError = {
+                        status: res.status,
+                        text: res.statusText,
+                        data: ''
+                    };
+                    res.json()
+                        .then(error => {
+                            handleError.data = error;
+                            dispatch(loginError(handleError));
+                        })
+                } else {
+                    res.json()
+                        .then(response => dispatch(userAuthOnLogin(response)));
+                    props.history.push({
+                        pathname: "/",
+                    });
+                }
+            })
+    }
+}
