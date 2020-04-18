@@ -4,6 +4,7 @@ import {Link as RouterLink, Redirect} from 'react-router-dom';
 import {loginProcess, loginClearError} from "../../actions/login";
 import ActivationAlert from "./ActivationAlert/ActivationAlert";
 import FacebookAuth from "./FacebookLogin/FacebookAuth";
+import GoogleAuth from "./GoolgleLogin/GoogleAuth";
 import {Avatar, Button, TextField, Link, Grid, Typography, CircularProgress} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import classes from '../Login/Login.module.css';
@@ -106,6 +107,9 @@ const Login = (props) => {
                         <Grid container>
                             <Grid item xs>
                                 <FacebookAuth/>
+                            </Grid>
+                            <Grid item xs>
+                                <GoogleAuth/>
                             </Grid>
                         </Grid>
                         {alert}

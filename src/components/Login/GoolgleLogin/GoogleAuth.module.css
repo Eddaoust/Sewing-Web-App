@@ -1,0 +1,19 @@
+.GoogleLoginBtn {
+  width: 50px;
+  height: 50px;
+  padding: 12px 12px;
+  font-size: 25px;
+  line-height: 1.33;
+  border-radius: 25px;
+  border: none;
+  box-shadow: 1px 1px 4px #C3C4C6;
+  background-color: #fff;
+}
+
+.GoogleLoginBtn:hover {
+  cursor: pointer;
+}
+
+.GoogleImg {
+  width: 100%;
+}

@@ -7,9 +7,7 @@ import classes from '../FacebookLogin/FacebookAuth.module.css';
 
 const FacebookAuth = (props) => {
     const dispatch = useDispatch();
-    //const [isLoggedIn, setIsLoggedIn] = useState(false);
     const responseFacebook = (response) => {
-        console.log(response)
         dispatch(facebookLoginProcess({
             user_id: response.userID,
             access_token: response.accessToken
