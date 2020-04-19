@@ -38,4 +38,22 @@
   color: inherit;
 }
 
+.SocialWrapper {
+  margin-top: 20px;
+}
+
+.FbLogo {
+  text-align: end;
+  margin-right: 10px!important;
+}
+
+.GoogleLogo {
+  text-align: start;
+  margin-left: 10px!important;
+}
+
+.SocialAlert {
+  margin-top: 50px;
+}
+
 

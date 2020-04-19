@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link as RouterLink, Redirect} from 'react-router-dom';
 import {loginProcess, loginClearError} from "../../actions/login";
 import ActivationAlert from "./ActivationAlert/ActivationAlert";
+import Alert from '@material-ui/lab/Alert';
 import FacebookAuth from "./FacebookLogin/FacebookAuth";
 import GoogleAuth from "./GoolgleLogin/GoogleAuth";
 import {Avatar, Button, TextField, Link, Grid, Typography, CircularProgress} from '@material-ui/core';
@@ -22,9 +23,18 @@ const Login = (props) => {
     // Handle form error
     let error = false;
     let helperText = '';
-    if (login.error) {
+    let fbAlert;
+    if (login.error && (
+        login.error.data === 'This account is not linked with Facebook' ||
+        login.error.data === 'This account is not linked with Google')) {
+        fbAlert = (
+            <Alert variant="filled" severity="error">
+                Cette adresse email est déja utilisé.
+            </Alert>
+        );
+    } else if(login.error) {
         error = true;
-        helperText = 'Email ou mot de passe non valide'
+        helperText = 'Email ou mot de passe non valide';
     }
     // Redirect to Home if auth
     let redirect;
@@ -104,13 +114,28 @@ const Login = (props) => {
                                 <RouterLink className={classes.Link} to="/registration">Créer un compte</RouterLink>
                             </Grid>
                         </Grid>
-                        <Grid container>
-                            <Grid item xs>
+                        <Grid container
+                              direction="row"
+                              justify="center"
+                              alignItems="center"
+                              className={classes.SocialWrapper}>
+                            <Grid item
+                                  xs
+                                  className={classes.FbLogo}>
                                 <FacebookAuth/>
                             </Grid>
-                            <Grid item xs>
+                            <Grid item
+                                  xs
+                                  className={classes.GoogleLogo}>
                                 <GoogleAuth/>
                             </Grid>
+                        </Grid>
+                        <Grid container
+                              direction="row"
+                              justify="center"
+                              alignItems="center"
+                              className={classes.SocialAlert}>
+                            {fbAlert}
                         </Grid>
                         {alert}
                     </form>
