@@ -1,20 +1,38 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Button, Container, Grid, TextField, Typography} from "@material-ui/core";
-import {useLocation} from "react-router-dom";
+import {Redirect, useLocation, withRouter} from "react-router-dom";
 import classes from '../../ResetPassword/ResetPasswordForm/ResetPasswordForm.module.css';
-import {sendMailProcess} from "../../../actions/resetPassword";
+import {checkTokenClearError, checkTokenProcess} from "../../../actions/resetPassword";
 
+// Custom React Hook
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
 const ResetPasswordForm = () => {
+    const dispatch = useDispatch();
+    const resetPassword = useSelector(state => state.resetPassword);
     let query = useQuery();
 
-    console.log(query.get("token"));
+    // Redirect to login if token is not set, empty or server respond error
+    let redirect;
+    if (!query.get("token") || query.get("token") === '' || resetPassword.error) {
+        redirect = <Redirect to="/"/>
+    }
+
+    // Check token on mount & clear error on unmount
+    useEffect(() => {
+        dispatch(checkTokenProcess({
+            token: query.get("token")
+        }))
+        return () => dispatch(checkTokenClearError());
+    }, []);
+
 
     return (
         <Container className={classes.Container} maxWidth="xs">
+            {redirect}
             <div className={classes.Paper}>
                 <Typography component="h1" variant="h5">
                     Réinitialisation du mot de passe
@@ -62,4 +80,4 @@ const ResetPasswordForm = () => {
     );
 };
 
-export default ResetPasswordForm;
+export default withRouter(ResetPasswordForm);
