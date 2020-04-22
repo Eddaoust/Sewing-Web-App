@@ -48,12 +48,14 @@ const Login = (props) => {
         alert = <ActivationAlert
             open={showAlert}
             onClose={() => setShowAlert(false)}
-            message="Ce compte doit maintenant être activé. Un lien d'activation a été envoyé à votre adresse e-mail."/>
+            message="Ce compte doit maintenant être activé. Un lien d'activation a été envoyé à votre adresse e-mail."
+            statusColor="info"/>
     } else if(resetPassword.success) {
         alert = <ActivationAlert
             open={showAlert}
             onClose={() => setShowAlert(false)}
-            message="Un mail vous a été envoyé pour réinitialiser votre mot de passe."/>
+            message="Un mail vous a été envoyé pour réinitialiser votre mot de passe."
+            statusColor="info"/>
     }
 
 

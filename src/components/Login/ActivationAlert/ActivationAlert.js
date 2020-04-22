@@ -19,7 +19,7 @@ const ActivationAlert = (props) => {
                 autoHideDuration={12000}
                 onClose={props.onClose}
             >
-            <Alert severity="info">{props.message}</Alert>
+            <Alert severity={props.statusColor}>{props.message}</Alert>
             </Snackbar>
         </div>
     );
