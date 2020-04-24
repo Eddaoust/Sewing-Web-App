@@ -10,6 +10,11 @@ export const CHECK_TOKEN_SUCCESS = 'CHECK_TOKEN_SUCCESS';
 export const CHECK_TOKEN_ERROR = 'CHECK_TOKEN_ERROR';
 export const CHECK_TOKEN_CLEAR_ERROR = 'CHECK_TOKEN_CLEAR_ERROR';
 
+export const RESET_PWD_REQUEST = 'RESET_PWD_REQUEST';
+export const RESET_PWD_SUCCESS = 'RESET_PWD_SUCCESS';
+export const RESET_PWD_ERROR = 'RESET_PWD_ERROR';
+export const RESET_PWD_CLEAR_ERROR = 'RESET_PWD_CLEAR_ERROR';
+
 export function sendMailRequest() {
     return {
         type: SEND_MAIL_REQUEST,
@@ -117,6 +122,64 @@ export function checkTokenProcess(formValues) {
                     res.json()
                         .then(response => {
                             dispatch(checkTokenSuccess(response));
+                        });
+                }
+            })
+    }
+}
+
+export function resetPwdRequest() {
+    return {
+        type: RESET_PWD_REQUEST,
+    };
+}
+
+export function resetPwdSuccess() {
+    return {
+        type: RESET_PWD_SUCCESS,
+    };
+}
+
+export function resetPwdError(error) {
+    return {
+        type: RESET_PWD_ERROR,
+        data: error
+    }
+}
+
+export function resetPwdClearError() {
+    return {
+        type: RESET_PWD_CLEAR_ERROR
+    }
+}
+
+export function resetPwdProcess(formValues, props) {
+    return function(dispatch) {
+        dispatch(resetPwdRequest());
+        return fetch(`${ROOT_URL}/password/reset`, {
+            method: 'POST',
+            headers: HTTP_HEADERS,
+            body: JSON.stringify(formValues)
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    const handleError = {
+                        status: res.status,
+                        text: res.statusText,
+                        data: ''
+                    };
+                    res.json()
+                        .then(error => {
+                            handleError.data = error;
+                            dispatch(resetPwdError(handleError));
+                        })
+                } else {
+                    res.json()
+                        .then(response => {
+                            dispatch(resetPwdSuccess(response));
+                            props.history.push({
+                                pathname: "/",
+                            });
                         });
                 }
             })

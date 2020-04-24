@@ -3,23 +3,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, Container, Grid, TextField, Typography} from "@material-ui/core";
 import {Redirect, useLocation, withRouter} from "react-router-dom";
 import classes from '../../ResetPassword/ResetPasswordForm/ResetPasswordForm.module.css';
-import {checkTokenClearError, checkTokenProcess} from "../../../actions/resetPassword";
+import {checkTokenClearError, checkTokenProcess, resetPwdProcess} from "../../../actions/resetPassword";
 
 // Custom React Hook
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = (props) => {
     const dispatch = useDispatch();
     const resetPassword = useSelector(state => state.resetPassword);
     let query = useQuery();
 
-    // Redirect to login if token is not set, empty or server respond error
-    let redirect;
-    if (!query.get("token") || query.get("token") === '' || resetPassword.error) {
-        redirect = <Redirect to="/"/>
-    }
+    console.log(resetPassword);
 
     // Check token on mount & clear error on unmount
     useEffect(() => {
@@ -28,6 +24,36 @@ const ResetPasswordForm = () => {
         }))
         return () => dispatch(checkTokenClearError());
     }, []);
+
+    // Redirect to login if token is not set, empty or server respond error
+    let redirect;
+    if (!query.get("token") || query.get("token") === '') {
+        redirect = <Redirect to="/"/>
+    }
+
+    //Handle error
+    let error = {
+        error: false,
+        message: [
+           '', ''
+       ]
+    }
+
+    if (resetPassword.error) {
+        if (resetPassword.error.data === 'Invalid Token' || resetPassword.error.data === 'Unable to find user') {
+            redirect = <Redirect to="/"/>
+        } else {
+            resetPassword.error.data.map(e => {
+                if (e.message === 'The password must be at least 6 characters.') {
+                    error.error = true;
+                    error.message[0] = "Le mot de passe doit faire au moins 6 caractères.";
+                } else if (e.message === 'This value should be identical to password') {
+                    error.error = true;
+                    error.message[1] = "Les mots de passe ne sont pas identique.";
+                }
+            })
+        }
+    }
 
 
     return (
@@ -39,11 +65,18 @@ const ResetPasswordForm = () => {
                 </Typography>
                 <form className={classes.Form} onSubmit={e => {
                     e.preventDefault();
+                    dispatch(resetPwdProcess({
+                        token: query.get("token"),
+                        password: e.target.querySelectorAll('input')[0].value,
+                        password_confirmation: e.target.querySelectorAll('input')[1].value,
+                    }, props));
 
                 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                error={error.error}
+                                helperText={error.message[0]}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -55,6 +88,8 @@ const ResetPasswordForm = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={error.error}
+                                helperText={error.message[1]}
                                 variant="outlined"
                                 required
                                 fullWidth
