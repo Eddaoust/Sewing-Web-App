@@ -19,7 +19,7 @@ const ActivationAlert = (props) => {
                 autoHideDuration={12000}
                 onClose={props.onClose}
             >
-            <Alert severity="info">Ce compte doit maintenant être activé. Un lien d'activation a été envoyé à votre adresse e-mail.</Alert>
+            <Alert severity={props.statusColor}>{props.message}</Alert>
             </Snackbar>
         </div>
     );

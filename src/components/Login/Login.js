@@ -15,6 +15,7 @@ const Login = (props) => {
     const login = useSelector(state => state.login);
     const registration = useSelector(state => state.registration);
     const user = useSelector(state => state.user);
+    const resetPassword = useSelector(state => state.resetPassword);
     const [showAlert, setShowAlert] = useState(true);
     // Clear Error on Component unmount
     useEffect(() => {
@@ -44,8 +45,25 @@ const Login = (props) => {
     // Show alert
     let alert;
     if ((registration.attempt && !user.activated) || (login.attempt && !user.activated)) {
-        alert = <ActivationAlert open={showAlert} onClose={() => setShowAlert(false)}/>
+        alert = <ActivationAlert
+            open={showAlert}
+            onClose={() => setShowAlert(false)}
+            message="Ce compte doit maintenant être activé. Un lien d'activation a été envoyé à votre adresse e-mail."
+            statusColor="info"/>
+    } else if(resetPassword.success && !resetPassword.password) {
+        alert = <ActivationAlert
+            open={showAlert}
+            onClose={() => setShowAlert(false)}
+            message="Un mail vous a été envoyé pour réinitialiser votre mot de passe."
+            statusColor="info"/>
+    } else if(resetPassword.success && resetPassword.password) {
+        alert = <ActivationAlert
+            open={showAlert}
+            onClose={() => setShowAlert(false)}
+            message="Votre mot de passe a été réinitialisé, vous pouvez vous connecter."
+            statusColor="success"/>
     }
+
 
     return (
         <Grid container className={classes.Root}>
@@ -106,9 +124,7 @@ const Login = (props) => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2" underline="none">
-                                    Mot de passe oublié?
-                                </Link>
+                                <RouterLink className={classes.Link} to="/password/reset">Mot de passe oublié?</RouterLink>
                             </Grid>
                             <Grid item>
                                 <RouterLink className={classes.Link} to="/registration">Créer un compte</RouterLink>
